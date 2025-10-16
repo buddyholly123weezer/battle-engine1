@@ -6,7 +6,7 @@ from modules.game import Game
 from modules.util import InterpolationManager, Interpolation
 from modules.constants import WIDTH, HEIGHT
 
-
+global SPpoints = 0
 # Example battle against Papyrus using the Battle class
 class PapyrusBattle(Battle):
     def __init__(self):
@@ -18,7 +18,7 @@ class PapyrusBattle(Battle):
 
     def post_init(self):
         self.enemies = [PapyrusEnemy()]
-        self.battle_box.set_encounter_text("A wild papyrus appeared!")
+        self.battle_box.set_encounter_text("Mettaton makes his dramatic entrance!!")
         # InterpolationManager().add_interpolation(
         #     Interpolation(self.battle_box, "y", HEIGHT, self.battle_box.y, 3000, Interpolation.EASE_OUT))
         InterpolationManager().add_interpolation(
@@ -68,16 +68,17 @@ class PapyrusBattle(Battle):
 # The Papyrus enemy itself
 class PapyrusEnemy(Enemy):
     def __init__(self):
-        image = pygame.image.load("examples/assets/papyrus.png")
+        image = pygame.image.load("examples/assets/mettaton.png")
         super(PapyrusEnemy, self).__init__(
             image, position=(250, 40), name="Papyrus", health=100
         )
-        self.acts = [MenuItem("Wave", self.wave)]
+        self.acts = [MenuItem("pose", self.pose)]
         self.battle = Battle()
 
-    def wave(self):
-        self.battle.battle_box.set_encounter_text("You wave at Papyrus. He waves back.")
+    def pose(self):
+        self.battle.battle_box.set_encounter_text("You strike a dramatic pose, he seems to admire it")
         self.battle.end_round()
+        SPpoints += 100
 
     def update(self, surface):
         super(PapyrusEnemy, self).update(surface)
